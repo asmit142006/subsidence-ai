@@ -67,14 +67,14 @@ def predict():
         pred_raw = model.predict(input_df)[0]
 
         label_map = {
-            0: "LOW RISK",
-            1: "MODERATE RISK",
+            0: "HIGH RISK",
+            1: "LOW RISK",
             2: "MEDIUM RISK",
-            3: "HIGH RISK",
-            "0": "LOW RISK",
-            "1": "MODERATE RISK",
+            3: "LOW RISK",       # Or "SAFE / NORMAL"
+            "0": "HIGH RISK",
+            "1": "LOW RISK",
             "2": "MEDIUM RISK",
-            "3": "HIGH RISK"
+            "3": "LOW RISK"
         }
 
         # Try decoding if encoder exists, otherwise use raw prediction
