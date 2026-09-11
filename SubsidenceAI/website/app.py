@@ -62,16 +62,23 @@ def predict():
             0: "LOW RISK",
             1: "MODERATE RISK",
             2: "MEDIUM RISK",
-            3: "HIGH RISK"
+            3: "HIGH RISK",
+            "0": "LOW RISK",
+            "1": "MODERATE RISK",
+            "2": "MEDIUM RISK",
+            "3": "HIGH RISK"
         }
 
+        # Try decoding if encoder exists, otherwise use raw prediction
+        val = pred_raw
         if encoder:
             try:
-                risk_label = str(encoder.inverse_transform([pred_raw])[0])
+                val = encoder.inverse_transform([pred_raw])[0]
             except Exception:
-                risk_label = label_map.get(int(pred_raw), "HIGH RISK")
-        else:
-            risk_label = label_map.get(int(pred_raw), "HIGH RISK")
+                val = pred_raw
+
+        # Resolve through map; if already a descriptive string, keep it
+        risk_label = label_map.get(val, label_map.get(str(val).strip(), str(val)))
 
         confidence = 85.0
         if hasattr(model, "predict_proba"):
