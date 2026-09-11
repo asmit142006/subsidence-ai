@@ -17,12 +17,20 @@ model = None
 encoder = None
 
 if os.path.exists(MODEL_PATH):
-    with open(MODEL_PATH, "rb") as f:
-        model = pickle.load(f)
+    try:
+        with open(MODEL_PATH, "rb") as f:
+            model = pickle.load(f)
+    except Exception as e:
+        print(f"Error loading model: {e}")
+        model = None
 
 if os.path.exists(ENCODER_PATH):
-    with open(ENCODER_PATH, "rb") as f:
-        encoder = pickle.load(f)
+    try:
+        with open(ENCODER_PATH, "rb") as f:
+            encoder = pickle.load(f)
+    except Exception as e:
+        print(f"Warning: Could not load encoder ({e}), falling back to label map.")
+        encoder = None
 
 FEATURES = [
     "mpu_acc_x_g", "mpu_acc_y_g", "mpu_acc_z_g",
